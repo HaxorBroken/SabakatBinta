@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressive Text Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+        }
+
+        .text-container {
+            font-weight: bold;
+            line-height: 1.5;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            visibility: hidden; /* Initially hidden until animation starts */
+            margin-bottom: 30px; /* Space between text and buttons */
+            white-space: normal; /* Ensure text can wrap on larger screens */
+        }
+
+        .letter {
+            display: inline-block;
+            opacity: 0;
+        }
+
+        .space {
+            width: 0.5rem;
+            display: inline-block;
+        }
+
+        @keyframes letterEffect {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.4) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* New button design */
+        .button {
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            color: white;
+            font-size: 1.5rem; /* Larger text for buttons */
+            padding: 12px 30px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            text-transform: uppercase;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #ee0979, #ff6a00);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid white;
+        }
+
+        .button.no {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        .button.no:hover {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid white;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .text-container {
+                font-size: 4vw; /* Smaller text size on tablets */
+                white-space: nowrap; /* Ensure the text stays on a single line */
+            }
+
+            .button {
+                font-size: 1.1rem; /* Adjust button font size on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .text-container {
+                font-size: 5vw; /* Further reduce text size for smaller screens */
+                white-space: nowrap; /* Keep the text on a single line */
+            }
+
+            .button {
+                font-size: 1rem; /* Further reduce button font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="text-container" class="text-container"></div>
+        <div class="button-container" id="button-container">
+            <button class="button" id="yes-btn">Yes</button>
+            <button class="button no" id="no-btn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const textContainer = document.getElementById('text-container');
+        const buttonContainer = document.getElementById('button-container');
+        const yesButton = document.getElementById('yes-btn');
+        const noButton = document.getElementById('no-btn');
+
+        const textSequences = [
+            "Hey! Sabakat. I want to tell you something. I think, I'm in love with you!",
+            "Just Kidding. I just wanna say, will you be my coding partner?"
+        ];
+
+        function displayText(index, callback) {
+            textContainer.innerHTML = ''; // Clear previous text
+            const text = textSequences[index];
+
+            [...text].forEach((char, i) => {
+                const span = document.createElement('span');
+                if (char === ' ') {
+                    span.classList.add('space');
+                } else {
+                    span.textContent = char;
+                    span.classList.add('letter');
+                    span.style.animation = `letterEffect 0.8s ease ${i * 0.1}s forwards`;
+                }
+                textContainer.appendChild(span);
+            });
+
+            textContainer.style.visibility = 'visible'; // Make text visible after animation starts
+
+            setTimeout(() => {
+                if (callback) {
+                    callback();
+                }
+            }, text.length * 100 + 2000); // Duration based on the text length and pause
+        }
+
+        function showButtons() {
+            buttonContainer.style.opacity = 1; // Fade in the buttons after text animation
+        }
+
+        function startDisplay() {
+            displayText(0, () => {
+                displayText(1, showButtons); // Show second text and then buttons
+            });
+        }
+
+        yesButton.addEventListener('click', () => {
+            // Open Telegram app with pre-filled message
+            window.location.href = 'https://t.me/Araf4t1?text=Yes!%20I%20want%20to%20be%20your%20coding%20partner';
+        });
+
+        noButton.addEventListener('click', () => {
+            textContainer.innerHTML = 'দুঃখিত! আমি ভাবতে পারি নাই তুমি যে নো তে ক্লিক করবা । ';
+            textContainer.style.visibility = 'visible'; // Make "No" text visible
+            buttonContainer.style.display = 'none'; // Hide buttons when "No" is clicked
+        });
+
+        startDisplay(); // Start displaying the text sequence
+    </script>
+</body>
+</html>
