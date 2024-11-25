@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressive Text Animation</title>
+    <title>Must</title>
     <style>
         body {
             margin: 0;
@@ -27,9 +27,10 @@
             line-height: 1.5;
             text-transform: uppercase;
             letter-spacing: 2px;
-            visibility: hidden; /* Initially hidden until animation starts */
-            margin-bottom: 30px; /* Space between text and buttons */
-            white-space: normal; /* Ensure text can wrap on larger screens */
+            visibility: hidden;
+            margin-bottom: 30px;
+            white-space: nowrap; /* Ensure text stays on one line */
+            font-size: 3rem; /* Default font size for larger screens */
         }
 
         .letter {
@@ -57,20 +58,6 @@
             }
         }
 
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
         .button-container {
             display: flex;
             justify-content: center;
@@ -79,11 +66,10 @@
             transition: opacity 1s ease-in-out;
         }
 
-        /* New button design */
         .button {
             background: linear-gradient(135deg, #ff6a00, #ee0979);
             color: white;
-            font-size: 1.5rem; /* Larger text for buttons */
+            font-size: 1.5rem;
             padding: 12px 30px;
             border: 2px solid transparent;
             cursor: pointer;
@@ -114,19 +100,17 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             .text-container {
-                font-size: 4vw; /* Smaller text size on tablets */
-                white-space: nowrap; /* Ensure the text stays on a single line */
+                font-size: 5vw; /* Adjust font size on tablets */
             }
 
             .button {
-                font-size: 1.1rem; /* Adjust button font size on smaller screens */
+                font-size: 1.2rem; /* Adjust button font size on smaller screens */
             }
         }
 
         @media (max-width: 480px) {
             .text-container {
-                font-size: 5vw; /* Further reduce text size for smaller screens */
-                white-space: nowrap; /* Keep the text on a single line */
+                font-size: 6vw; /* Further reduce text size on smaller screens */
             }
 
             .button {
